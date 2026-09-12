@@ -1,0 +1,144 @@
+name: Update Problem Count
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Count C and SQL files and update README
+        run: |
+          # ──────────────────────────────────────────────
+          # 1. Detect README file (case-insensitive search)
+          # ──────────────────────────────────────────────
+          README_FILE=""
+          for f in README.md README.MD readme.md Readme.md; do
+            if [ -f "$f" ]; then
+              README_FILE="$f"
+              break
+            fi
+          done
+
+          if [ -z "$README_FILE" ]; then
+            echo "Error: README file not found!"
+            exit 1
+          fi
+          echo "Target README: $README_FILE"
+
+          # ──────────────────────────────────────────────
+          # 2. Count .c files (case-insensitive) in repository
+          #    Recursively, only files with exact .c extension
+          # ──────────────────────────────────────────────
+          C_COUNT=$(find . -name .git -prune -o -type f -print | awk -F. '{
+            if (NF > 1) {
+              ext = tolower($NF)
+              if (ext == "c") print $0
+            }
+          }' | wc -l | tr -d ' ')
+          echo "C problems: $C_COUNT"
+
+          # ──────────────────────────────────────────────
+          # 3. Count .sql files (case-insensitive) in repository
+          #    Recursively, only files with exact .sql extension
+          # ──────────────────────────────────────────────
+          SQL_COUNT=$(find . -name .git -prune -o -type f -print | awk -F. '{
+            if (NF > 1) {
+              ext = tolower($NF)
+              if (ext == "sql") print $0
+            }
+          }' | wc -l | tr -d ' ')
+          echo "SQL problems: $SQL_COUNT"
+
+          # ──────────────────────────────────────────────
+          # 4. Calculate total
+          # ──────────────────────────────────────────────
+          TOTAL=$((C_COUNT + SQL_COUNT))
+          echo "Total problems: $TOTAL"
+
+          # ──────────────────────────────────────────────
+          # 5. Update the README between the markers using Python
+          # ──────────────────────────────────────────────
+          python3 - <<EOF
+          import re
+          import sys
+
+          readme_file = "$README_FILE"
+          c_count    = int("$C_COUNT")
+          sql_count  = int("$SQL_COUNT")
+          total      = int("$TOTAL")
+
+          with open(readme_file, "r", encoding="utf-8") as f:
+              content = f.read()
+
+          # Pattern: match everything between the two markers (inclusive)
+          pattern = (
+              r"(<!--\s*PROBLEM_COUNT_START\s*-->)"
+              r"[\s\S]*?"
+              r"(<!--\s*PROBLEM_COUNT_END\s*-->)"
+          )
+
+          table = (
+              "<table>\n"
+              "  <thead>\n"
+              "    <tr>\n"
+              "      <th align=\"left\">Language</th>\n"
+              "      <th align=\"center\">Solved</th>\n"
+              "    </tr>\n"
+              "  </thead>\n"
+              "  <tbody>\n"
+              "    <tr>\n"
+              "      <td>C</td>\n"
+              f"      <td align=\"center\">{c_count}</td>\n"
+              "    </tr>\n"
+              "    <tr>\n"
+              "      <td>SQL</td>\n"
+              f"      <td align=\"center\">{sql_count}</td>\n"
+              "    </tr>\n"
+              "    <tr>\n"
+              "      <td><b>Total</b></td>\n"
+              f"      <td align=\"center\"><b>{total}</b></td>\n"
+              "    </tr>\n"
+              "  </tbody>\n"
+              "</table>\n"
+          )
+
+          replacement = r"\1\n" + table + r"\2"
+
+          if not re.search(pattern, content):
+              print("Error: PROBLEM_COUNT_START / PROBLEM_COUNT_END markers not found!")
+              sys.exit(1)
+
+          updated = re.sub(pattern, replacement, content)
+
+          with open(readme_file, "w", encoding="utf-8") as f:
+              f.write(updated)
+
+          print(f"README updated — C: {c_count}, SQL: {sql_count}, Total: {total}")
+          EOF
+
+          # ──────────────────────────────────────────────
+          # 6. Commit and push only if README actually changed
+          # ──────────────────────────────────────────────
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name  "github-actions[bot]"
+
+          if ! git diff --quiet "$README_FILE"; then
+            git add "$README_FILE"
+            git commit -m "update problem count — C:$C_COUNT SQL:$SQL_COUNT Total:$TOTAL"
+            git push
+            echo "README committed and pushed."
+          else
+            echo "No count change detected. Skipping commit."
+          fi

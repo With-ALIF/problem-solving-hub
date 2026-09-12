@@ -1,0 +1,42 @@
+# ─── OS & Editor ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── VS Code ────────────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ─── Linux/Unix Extensionless Binaries ──────────────────────────
+# Ignore files without extension (e.g. gcc hello.c -o hello)
+*
+!*.*
+!*/
+!.gitignore
+!LICENSE
+!Makefile
+!Dockerfile
+
+# ─── C/C++ Build Artifacts & Binaries ───────────────────────────
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.dSYM/
+
+# ─── SQL Artifacts ──────────────────────────────────────────────
+*.bak
+*.dump
+*.log
+
+# ─── Temp & Misc ────────────────────────────────────────────────
+*.tmp
+*.swp
+*~
+.gitkeep
