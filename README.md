@@ -137,11 +137,11 @@ The table below is automatically updated on every push via `GitHub Actions` base
     </tr>
     <tr>
       <td>SQL</td>
-      <td align="center">3</td>
+      <td align="center">7</td>
     </tr>
     <tr>
       <td><b>Total</b></td>
-      <td align="center"><b>4</b></td>
+      <td align="center"><b>8</b></td>
     </tr>
   </tbody>
 </table>
