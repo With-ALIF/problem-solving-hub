@@ -133,15 +133,15 @@ The table below is automatically updated on every push via `GitHub Actions` base
   <tbody>
     <tr>
       <td>C</td>
-      <td align="center">1</td>
+      <td align="center">2</td>
     </tr>
     <tr>
       <td>SQL</td>
-      <td align="center">7</td>
+      <td align="center">8</td>
     </tr>
     <tr>
       <td><b>Total</b></td>
-      <td align="center"><b>8</b></td>
+      <td align="center"><b>10</b></td>
     </tr>
   </tbody>
 </table>
