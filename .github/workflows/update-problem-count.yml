@@ -70,7 +70,7 @@ jobs:
           # ──────────────────────────────────────────────
           # 5. Update the README between the markers using Python
           # ──────────────────────────────────────────────
-          python3 - <<EOF
+          read -r C_DIFF SQL_DIFF <<< $(python3 - <<EOF
           import re
           import sys
 
@@ -81,6 +81,19 @@ jobs:
 
           with open(readme_file, "r", encoding="utf-8") as f:
               content = f.read()
+
+          # Extract previous counts to calculate C and SQL differences
+          prev_c_match = re.search(r"<td>C</td>\s*<td[^>]*>(\d+)</td>", content)
+          prev_sql_match = re.search(r"<td>SQL</td>\s*<td[^>]*>(\d+)</td>", content)
+
+          prev_c = int(prev_c_match.group(1)) if prev_c_match else 0
+          prev_sql = int(prev_sql_match.group(1)) if prev_sql_match else 0
+
+          diff_c = c_count - prev_c
+          diff_sql = sql_count - prev_sql
+
+          diff_c_str = f"+{diff_c}" if diff_c > 0 else str(diff_c)
+          diff_sql_str = f"+{diff_sql}" if diff_sql > 0 else str(diff_sql)
 
           # Pattern: match everything between the two markers (inclusive)
           pattern = (
@@ -117,7 +130,7 @@ jobs:
           replacement = r"\1\n" + table + r"\2"
 
           if not re.search(pattern, content):
-              print("Error: PROBLEM_COUNT_START / PROBLEM_COUNT_END markers not found!")
+              print("Error: PROBLEM_COUNT_START / PROBLEM_COUNT_END markers not found!", file=sys.stderr)
               sys.exit(1)
 
           updated = re.sub(pattern, replacement, content)
@@ -125,8 +138,12 @@ jobs:
           with open(readme_file, "w", encoding="utf-8") as f:
               f.write(updated)
 
-          print(f"README updated — C: {c_count}, SQL: {sql_count}, Total: {total}")
+          print(f"{diff_c_str} {diff_sql_str}")
           EOF
+          )
+
+          echo "C Diff: $C_DIFF, SQL Diff: $SQL_DIFF"
+          echo "README updated — C: $C_COUNT ($C_DIFF), SQL: $SQL_COUNT ($SQL_DIFF), Total: $TOTAL"
 
           # ──────────────────────────────────────────────
           # 6. Commit and push only if README actually changed
@@ -136,7 +153,7 @@ jobs:
 
           if ! git diff --quiet "$README_FILE"; then
             git add "$README_FILE"
-            git commit -m "update problem count — C:$C_COUNT SQL:$SQL_COUNT Total:$TOTAL"
+            git commit -m "problem count — C:$C_DIFF SQL:$SQL_DIFF"
             git push
             echo "README committed and pushed."
           else
