@@ -1,0 +1,6 @@
+psql -U postgres -d test_bank -f 01_schema.sql
+psql -U postgres -d test_bank -f 02_setup.sql
+psql -U postgres -d test_bank -f 03_negative_testing.sql
+psql -U postgres -d test_bank -f 04_jsonb_exercise.sql
+psql -U postgres -d test_bank -f 05_cascading_execution.sql
+psql -U postgres -d test_bank -f 06_advanced_extension_challenges.sql
