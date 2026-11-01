@@ -140,8 +140,12 @@ The table below is automatically updated on every push via `GitHub Actions` base
       <td align="center">15</td>
     </tr>
     <tr>
+      <td>Python</td>
+      <td align="center">1</td>
+    </tr>
+    <tr>
       <td><b>Total</b></td>
-      <td align="center"><b>17</b></td>
+      <td align="center"><b>18</b></td>
     </tr>
   </tbody>
 </table>
