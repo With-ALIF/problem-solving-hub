@@ -7,7 +7,7 @@
   Department of Computer Science & Engineering (CSE) • Begum Rokeya University, Rangpur (BRUR)
 </p>
 
-[![Language](https://img.shields.io/badge/Language-Python_3-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Author](https://img.shields.io/badge/Author-With--ALIF-181717?style=flat-square&logo=github)](https://github.com/With-ALIF)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-Active-success?style=flat-square)](#)
 

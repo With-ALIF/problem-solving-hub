@@ -9,7 +9,9 @@
 
 [![C](https://img.shields.io/badge/Language-C-A8B9CC?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Course: CSE 2201](https://img.shields.io/badge/Course-CSE%202201%20(Algo)-blue?style=flat-square)](#-curriculum--focus-areas)
+[![Python](https://img.shields.io/badge/Language-Python_3.13-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+
+[![Course: CSE 2201](https://img.shields.io/badge/Course-CSE%202201%20(DSA)-blue?style=flat-square)](#-curriculum--focus-areas)
 [![Course: CSE 2203](https://img.shields.io/badge/Course-CSE%202203%20(DBMS)-316192?style=flat-square)](#-curriculum--focus-areas)
 [![Workflow](https://img.shields.io/badge/Tracker-GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)](#-progress-tracker)
 [![Author](https://img.shields.io/badge/Author-With--ALIF-181717?style=flat-square&logo=github)](https://github.com/With-ALIF)
@@ -46,6 +48,10 @@ This repository serves as a centralized, production-grade archive for coursework
 │   ├── readme.md                      # Detailed PostgreSQL CLI & helper setup
 │   └── ....                           # Schema definitions, procedures & queries
 │ 
+├── python/                            # Python Scripts & Automation Tools
+│   ├── readme.md                      # Python environment & script instructions
+│   └── ....                     
+│ 
 └── README.md                          # Repository hub documentation
 ```
 
@@ -53,6 +59,7 @@ This repository serves as a centralized, production-grade archive for coursework
 | :--- | :--- | :--- |
 | [`/DSA`](./DSA) | **DSA** (`CSE 2201`) | C (GCC) |
 | [`/DBMS`](./DBMS) | **DBMS** (`CSE 2203`) | PostgreSQL |
+| [`/python`](./python) | **Problem Solving & Automation** | Python 3.13 |
 
 ---
 
@@ -80,6 +87,13 @@ This repository serves as a centralized, production-grade archive for coursework
   - Common Table Expressions (CTEs) & Recursive CTEs.
   - Window Functions (`ROW_NUMBER`, `RANK`, `LEAD`, `LAG`).
   - Stored Procedures, User-Defined Functions (PL/pgSQL), and Index Optimization (B-Tree, Hash).
+
+### 3. Python Problem Solving & Automation
+
+- **Core Fundamentals & OOP:** Data structures (lists, dicts, sets, tuples), list comprehensions, object-oriented design, modular architecture, and robust exception handling.
+- **Algorithmic Problem Solving:** Mathematical problem solving, recursion, string algorithms, and efficient data processing.
+- **Document Engineering & Automation:** Programmatic PDF generation, vector graphics, custom tables, layout design, and automated report building (e.g., using `reportlab`).
+- **Data Utilities & Tooling:** Structured data handling (`JSON`/`JSONB`), automated parsing, and custom workflow automation scripts. 
 
 ---
 
@@ -114,6 +128,15 @@ Using **PostgreSQL CLI (`psql`)**:
 ```yaml
 # Execute script directly against database
 psql -U postgres -d practice -f SQL/test/sum.sql
+```
+
+### 4. Running Python Scripts
+
+Using **Python 3**:
+
+```yaml
+# Execute script
+python3 python/econocmics/main.py
 ```
 
 ---
