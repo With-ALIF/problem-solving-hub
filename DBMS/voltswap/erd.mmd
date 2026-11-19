@@ -1,0 +1,91 @@
+erDiagram
+    STATION {
+        int station_id PK
+        string name
+        string road
+        string area
+        string city
+    }
+
+    CABINET {
+        int station_id PK, FK
+        int cabinet_no PK
+        date installation_date
+        int slot_count
+    }
+
+    SLOT {
+        int station_id PK, FK
+        int cabinet_no PK, FK
+        int slot_no PK
+    }
+
+    BATTERY_MODEL {
+        string model_code PK
+        string manufacturer
+        string chemistry
+        decimal nominal_voltage
+        decimal rated_capacity_kwh
+    }
+
+    BATTERY {
+        string serial_no PK
+        date manufacture_date
+        decimal state_of_health
+        string model_code FK
+        string current_state
+    }
+
+    DRIVER {
+        int driver_id PK
+        string first_name
+        string last_name
+        date date_of_birth
+        string mobile_wallet_number
+        int referrer_driver_id FK
+    }
+
+    VEHICLE {
+        string registration_no PK
+        string make
+        int year
+    }
+
+    DRIVER_VEHICLE_ASSIGNMENT {
+        int assignment_id PK
+        int driver_id FK
+        string registration_no FK
+        date start_date
+        date end_date
+    }
+
+    SWAP {
+        int swap_id PK
+        timestamp timestamp
+        int station_id FK
+        int driver_id FK
+        string registration_no FK
+        string returned_battery_serial FK
+        string issued_battery_serial FK
+    }
+
+    PAYMENT {
+        int payment_id PK
+        decimal amount
+        timestamp timestamp
+        string method
+        string status
+        int swap_id FK
+    }
+
+    STATION ||--|{ CABINET : contains
+    CABINET ||--|{ SLOT : contains
+    BATTERY_MODEL ||--o{ BATTERY : describes
+    DRIVER ||--o{ DRIVER_VEHICLE_ASSIGNMENT : assigned
+    VEHICLE ||--o{ DRIVER_VEHICLE_ASSIGNMENT : driven
+    STATION ||--o{ SWAP : hosts
+    DRIVER ||--o{ SWAP : performs
+    VEHICLE ||--o{ SWAP : participates
+    BATTERY ||--o{ SWAP : returned_role
+    BATTERY ||--o{ SWAP : issued_role
+    SWAP ||--o| PAYMENT : paid_by
