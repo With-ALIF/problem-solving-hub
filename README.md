@@ -160,7 +160,7 @@ The table below is automatically updated on every push via `GitHub Actions` base
     </tr>
     <tr>
       <td>SQL</td>
-      <td align="center">16</td>
+      <td align="center">18</td>
     </tr>
     <tr>
       <td>Python</td>
@@ -168,7 +168,7 @@ The table below is automatically updated on every push via `GitHub Actions` base
     </tr>
     <tr>
       <td><b>Total</b></td>
-      <td align="center"><b>19</b></td>
+      <td align="center"><b>21</b></td>
     </tr>
   </tbody>
 </table>
